@@ -1,8 +1,8 @@
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 
-public class CollectingNumbersII {
+public class StaticRangeSumQueries {
+
     static class FastScanner {
         private final InputStream in = System.in;
         private final byte[] buffer = new byte[1 << 16];
@@ -43,29 +43,17 @@ public class CollectingNumbersII {
         FastScanner fs = new FastScanner();
         int n = fs.nextInt();
         int m = fs.nextInt();
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int arr[] = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = fs.nextInt();
-            map.put(arr[i], i);
-        }
+        long[] prefix = new long[n + 1];
+        prefix[0] = 0;
+        for (int i = 1; i <= n; i++)
+            prefix[i] = prefix[i - 1] + fs.nextInt();
 
-        int prev = -1;
-        int[] rounds = new int[n];
-        int round = 1;
-        for (int i = 1; i <= n; i++) {
-            int curr = map.get(i);
-            if (curr < prev) {
-                round++;
-            }
-            rounds[curr] = round;
-            prev = curr;
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < m; i++) {
+            int start = fs.nextInt();
+            int stop = fs.nextInt();
+            ans.append((prefix[stop] - prefix[start - 1]) + "\n");
         }
-
-        for(int i = 0; i < m; i++) {
-            int a = fs.nextInt() - 1;
-            int b = fs.nextInt() - 1;
-            
-        }
+        System.out.println(ans.toString());
     }
 }
