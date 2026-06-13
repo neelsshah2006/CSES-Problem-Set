@@ -12,19 +12,22 @@ public class MinimizingCoins {
         }
         sc.close();
 
-        int[][] dp = new int[n + 1][k + 1];
-        Arrays.fill(dp[0], Integer.MAX_VALUE);
+        int[] dp = new int[k + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
         for (int i = 1; i <= n; i++) {
             int val = coins[i - 1];
+            int[] temp = new int[k + 1];
+            temp[0] = 0;
             for (int j = 1; j <= k; j++) {
-                if (j - val >= 0 && dp[i][j - val] != Integer.MAX_VALUE) {
-                    dp[i][j] = Math.min(dp[i][j - val] + 1, dp[i - 1][j]);
+                if (j - val >= 0 && temp[j - val] != Integer.MAX_VALUE) {
+                    temp[j] = Math.min(temp[j - val] + 1, dp[j]);
                 } else {
-                    dp[i][j] = dp[i - 1][j];
+                    temp[j] = dp[j];
                 }
             }
+            dp = temp;
         }
 
-        System.out.println(dp[n][k] == Integer.MAX_VALUE ? -1 : dp[n][k]);
+        System.out.println(dp[k] == Integer.MAX_VALUE ? -1 : dp[k]);
     }
 }
