@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class JosephusProblemI {
@@ -6,30 +8,16 @@ public class JosephusProblemI {
         int n = sc.nextInt();
         sc.close();
 
-        if (n == 1) {
-            System.out.println(1);
-            return;
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            q.add(i + 1);
         }
 
-        boolean skip = true;
-        int num = 2;
-        boolean[] vis = new boolean[n];
-        int count = 0;
-        StringBuilder ans = new StringBuilder();
-        while (count < n) {
-            if (skip && !vis[num - 1]) {
-                vis[num - 1] = true;
-                ans.append(num + " ");
-                count++;
-                skip = false;
-            } else if (!vis[num - 1])
-                skip = true;
-
-            num++;
-            if (num > n)
-                num = 1;
+        StringBuilder sb = new StringBuilder();
+        while (!q.isEmpty()) {
+            q.add(q.poll());
+            sb.append(q.poll() + " ");
         }
-
-        System.out.println(ans);
+        System.out.println(sb);
     }
 }
